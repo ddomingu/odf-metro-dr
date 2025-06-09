@@ -1,0 +1,4 @@
+---
+resources:
+- cephfs-write-workload-generator-nocache-pvc.yaml
+- cephfs-write-workload-generator-nocache-deployment.yaml

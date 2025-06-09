@@ -4,3 +4,7 @@ resources:
 - rbd/write/nocache
 - rbd/read/cache
 - rbd/read/nocache
+- cephfs/write/cache
+- cephfs/write/nocache
+- cephfs/read/cache
+- cephfs/read/nocache

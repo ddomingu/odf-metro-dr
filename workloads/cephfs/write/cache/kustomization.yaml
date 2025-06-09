@@ -1,0 +1,4 @@
+---
+resources:
+- cephfs-write-workload-generator-cache-pvc.yaml
+- cephfs-write-workload-generator-cache-deployment.yaml

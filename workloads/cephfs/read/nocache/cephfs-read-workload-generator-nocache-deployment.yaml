@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cephfs-read-workload-generator-no-cache
+  labels:
+    app: cephfs-read-workload-generator-no-cache
+    workload: fs
+    generator: 'yes'
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cephfs-read-workload-generator-no-cache
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cephfs-read-workload-generator-no-cache
+        workload: fs
+        generator: 'yes'
+    spec:
+      containers:
+      - image: quay.io/ddomingu/ocsloadgenerator
+        imagePullPolicy: Always
+        name: cephfsreadworkloadgenerator
+        env:
+        - name: CEPH_PV_MOUNT_DIR
+          value: /mnt/pv
+        - name: CEPH_TEST_COMP
+          value: fs
+        - name: CEPH_TEST_TYPE
+          value: read 
+        - name: CEPH_TEST_R_CACHE
+          value: 'no'
+        - name: CEPH_TEST_SLEEP
+          value: '0.5'
+        volumeMounts:
+        - name: cephfs-read-workload-generator-persistent-storage
+          mountPath: /mnt/pv
+      volumes:
+      - name: cephfs-read-workload-generator-persistent-storage
+        persistentVolumeClaim:
+          claimName: cephfs-read-workload-generator-pv-claim-no-cache

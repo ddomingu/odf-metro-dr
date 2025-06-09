@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cephfs-write-workload-generator-pv-claim-cache
+  labels:
+    app: cephfs-write-workload-generator-cache
+spec:
+  storageClassName: ocs-external-storagecluster-cephfs
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
