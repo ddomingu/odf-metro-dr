@@ -19,7 +19,7 @@ spec:
         generator: 'yes'
     spec:
       containers:
-      - image: quay.io/ddomingu/ocsloadgenerator
+      - image: quay.io/ddomingu/ocsloadgenerator:latest
         imagePullPolicy: Always
         name: rbdwriteworkloadgenerator
         env:
