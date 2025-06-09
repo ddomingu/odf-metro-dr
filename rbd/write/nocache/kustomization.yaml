@@ -1,0 +1,4 @@
+---
+resources:
+- rbd-write-workload-generator-nocache-pvc.yaml
+- rbd-write-workload-generator-nocache-deployment.yaml

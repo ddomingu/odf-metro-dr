@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rbd-write-workload-generator-pv-claim-no-cache
+  labels:
+    app: rbd-write-workload-generator-no-cache
+spec:
+  storageClassName: ocs-external-storagecluster-ceph-rbd
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

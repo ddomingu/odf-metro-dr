@@ -1,0 +1,4 @@
+---
+resources:
+- rbd-read-workload-generator-cache-pvc.yaml
+- rbd-read-workload-generator-cache-deployment.yaml
