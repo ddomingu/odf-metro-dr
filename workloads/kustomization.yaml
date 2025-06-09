@@ -1,0 +1,6 @@
+---
+resources:
+- rbd/write/cache
+- rbd/write/nocache
+- rbd/read/cache
+- rbd/read/nocache
