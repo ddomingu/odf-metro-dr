@@ -1,0 +1,49 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-rhel9
+spec:
+  dataVolumeTemplates:
+    - metadata:
+        name: vm-rhel9
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: rhel9 
+          namespace: openshift-virtualization-os-images 
+        storage: {}
+    - metadata:
+        name: vm-rhel9-data
+      spec:
+        preallocation: false
+        source:
+          blank: {}
+        storage:
+          resources:
+            requests:
+              storage: 5Gi
+          storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
+  instancetype:
+    name: u1.medium 
+  preference:
+    name: rhel.9 
+  runStrategy: Always
+  template:
+    spec:
+      domain:
+        devices: {}
+      volumes:
+        - dataVolume:
+            name: vm-rhel9
+          name: rootdisk
+        - dataVolume:
+            name: vm-rhel9-data
+          name: data
+        - cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              user: cloud-user
+              password: redhat
+              chpasswd:
+                expire: false
+          name: cloudinitdisk
