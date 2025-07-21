@@ -5,6 +5,7 @@ metadata:
   name: rbd-read-workload-generator-pv-claim-no-cache
   labels:
     app: rbd-read-workload-generator-no-cache
+    dr: true
 spec:
   storageClassName: ocs-external-storagecluster-ceph-rbd
   accessModes:

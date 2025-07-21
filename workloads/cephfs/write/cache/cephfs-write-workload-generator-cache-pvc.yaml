@@ -5,6 +5,7 @@ metadata:
   name: cephfs-write-workload-generator-pv-claim-cache
   labels:
     app: cephfs-write-workload-generator-cache
+    dr: true
 spec:
   storageClassName: ocs-external-storagecluster-cephfs
   accessModes:

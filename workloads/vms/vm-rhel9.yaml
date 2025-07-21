@@ -6,6 +6,8 @@ spec:
   dataVolumeTemplates:
     - metadata:
         name: vm-rhel9
+        labels:
+          dr: true
       spec:
         sourceRef:
           kind: DataSource
@@ -14,6 +16,8 @@ spec:
         storage: {}
     - metadata:
         name: vm-rhel9-data
+        labels:
+          dr: true
       spec:
         preallocation: false
         source:
