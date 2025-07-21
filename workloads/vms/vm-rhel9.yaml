@@ -7,7 +7,7 @@ spec:
     - metadata:
         name: vm-rhel9
         labels:
-          dr: true
+          dr: active
       spec:
         sourceRef:
           kind: DataSource
@@ -17,7 +17,7 @@ spec:
     - metadata:
         name: vm-rhel9-data
         labels:
-          dr: true
+          dr: active
       spec:
         preallocation: false
         source:

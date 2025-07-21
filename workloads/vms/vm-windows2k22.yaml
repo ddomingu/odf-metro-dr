@@ -9,7 +9,7 @@ spec:
     metadata:
       name: vm-win2k22
       labels:
-        dr: true
+        dr: active
     spec:
       sourceRef:
         kind: DataSource

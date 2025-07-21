@@ -5,7 +5,7 @@ metadata:
   name: cephfs-read-workload-generator-pv-claim-no-cache
   labels:
     app: cephfs-read-workload-generator-no-cache
-    dr: true
+    dr: active
 spec:
   storageClassName: ocs-external-storagecluster-cephfs
   accessModes:
