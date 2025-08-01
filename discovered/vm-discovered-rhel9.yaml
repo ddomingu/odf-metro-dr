@@ -1,0 +1,115 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vm-rhel9-config
+  labels:
+    dr: active
+data:
+  app-config.conf: |
+    SERVER_PORT=8080
+    LOG_LEVEL=INFO
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vm-rhel9-svc
+  labels:
+    app: vm-rhel9
+    dr: active
+spec:
+  selector:
+    kubevirt.io/domain: vm-rhel9
+    dr: active
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: vm-rhel9-route
+  labels:
+    dr: active
+spec:
+  to:
+    kind: Service
+    name: vm-rhel9-svc
+  port:
+    targetPort: 80
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-rhel9
+spec:
+  dataVolumeTemplates:
+    - metadata:
+        name: vm-rhel9
+        labels:
+          dr: active
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: rhel9
+          namespace: openshift-virtualization-os-images
+        storage: {}
+    - metadata:
+        name: vm-rhel9-data
+        labels:
+          dr: active
+      spec:
+        preallocation: false
+        source:
+          blank: {}
+        storage:
+          resources:
+            requests:
+              storage: 5Gi
+          storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
+  instancetype:
+    name: u1.medium
+  preference:
+    name: rhel.9
+  runStrategy: RerunOnFailure
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: vm-rhel9
+        dr: active
+    spec:
+      domain:
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio
+            - name: data
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+            - name: config-disk
+              disk:
+                bus: virtio
+        resources: {}
+      volumes:
+        - name: rootdisk
+          dataVolume:
+            name: vm-rhel9
+        - name: data
+          dataVolume:
+            name: vm-rhel9-data
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              user: cloud-user
+              password: redhat
+              chpasswd:
+                expire: false
+        - name: config-disk
+          configMap:
+            name: vm-rhel9-config
