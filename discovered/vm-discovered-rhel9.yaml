@@ -1,5 +1,16 @@
 ---
 apiVersion: v1
+kind: Secret
+metadata:
+  name: ddomingu-ssh-key
+  labels:
+    dr: active
+type: Opaque
+stringData:
+  authorized_keys: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQClzKbslDBHv7AZQIuHHTZjb2UBKUupcIrgS+swSjCev077qkWAvcTNvFDl3MTfHLyJRxgPY1MzRrclV8Vofp32g0IyfB8WsW3NPYAtr5OjUEeq4cUDk1LkQ8kpGYvCqTOGGE/YMHf1SKGbZKXXXvX/jRQbgfIyvWkvyLgr+PNjiM/2BnPV1aqgxZ683/eTr4LlsoBOFRN7ayOZ7dK7TNoZokQp00FDfOd8K93umhxMZNuWtlz3m96j1C8RQZta+2AYMY3pvZ6/YiiC4kq4qbIstF/6gmSCFHZftkEzytnzWGp00c+u2c2F2Xp4XjyO7AdA0qVxrDIPxVzVtZcSC+7p dani@danidominguez
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vm-rhel9-config
@@ -113,3 +124,10 @@ spec:
         - name: config-disk
           configMap:
             name: vm-rhel9-config
+      accessCredentials:
+        - sshPublicKey:
+            propagationMethod:
+              noCloud: {}
+            source:
+              secret:
+                secretName: ddomingu-ssh-key
